@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SMUDGES Test Site</title>
+   <style type="text/css">
+      hr {width: 100px;height: 10px;margin-top: 20px;}
+      hr {
+      width: 90%;
+      height: 1px;
+      background-color: blue;
+      margin-right: 20px;
+      margin-left: 20px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-width: 1px;
+      border-color: black;
+      }
+    </style>
+  </head>
+  <body style = "background-color:grey;">
+  </body>
+  <body>
+    <h3>
+    SMUDGES: Systematically Mapping Ultra-Diffuse Galaxies
+    </h3>
+    <hr>
+    <p>
+    Test html for website
+    </p>
+  </body>
+</html>
