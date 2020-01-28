@@ -1,31 +1,114 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>SMUDGES Test Site</title>
-   <style type="text/css">
-      hr {width: 100px;height: 10px;margin-top: 20px;}
-      hr {
-      width: 90%;
-      height: 1px;
-      background-color: blue;
-      margin-right: 20px;
-      margin-left: 20px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      border-width: 1px;
-      border-color: black;
-      }
-    </style>
-  </head>
-  <body style = "background-color:grey;">
-  </body>
-  <body>
-    <h3>
-    SMUDGES: Systematically Mapping Ultra-Diffuse Galaxies
-    </h3>
-    <hr>
-    <p>
-    Test html for website
-    </p>
-  </body>
-</html>
+<html> 
+    <head> 
+        <title> 
+            SMUDGES: Systematically Mapping Ultra-Diffuse Galaxies
+        </title> 
+        <style> 
+            * { 
+                box-sizing: border-box; 
+            } 
+              
+            /* CSS property for header section */ 
+            .header { 
+                background-color: teal; 
+                padding: 15px; 
+                text-align: center; 
+            } 
+              
+            /* CSS property for nevigation menu */ 
+            .nav_menu { 
+                overflow: hidden; 
+                background-color: #333; 
+            } 
+            .nav_menu a { 
+                float: right; 
+                display: block; 
+                color: white; 
+                text-align: center; 
+                padding: 14px 16px; 
+                text-decoration: none; 
+            } 
+            .nav_menu a:hover { 
+                background-color: white; 
+                color: teal; 
+            } 
+              
+            /* CSS property for content section */ 
+            .columnA { 
+                float: left; 
+                width: 20%;
+                padding: 15px; 
+                text-align:justify; 
+				border: 1px solid black;
+            }
+			.columnB {
+				float: left; 
+                width: 60%; 
+                padding: 15px; 
+                text-align:justify;
+				border: 1px solid black;				
+			}
+			.columnC {
+				float: left; 
+                width: 20%; 
+                padding: 15px; 
+                text-align:justify;
+				border: 1px solid black;
+			}
+            h2 { 
+                color:black; 
+                text-align:center; 
+            } 
+              
+            /* Media query to set website layout  
+            according to screen size */ 
+            @media screen and (max-width:600px) { 
+                .columnA, .columnB, .columnC { 
+                    width: 50%; 
+                } 
+            } 
+            @media screen and (max-width:400px) { 
+                .columnA, .columnB, .columnC { 
+                    width: 100%; 
+                } 
+            } 
+        </style> 
+    </head> 
+      
+    <body> 
+          
+        <!-- header of website layout -->
+        <div class = "header"> 
+            <h2 style = "color:white;font-size:200%"> 
+                SMUDGES
+            </h2> 
+        </div> 
+          
+        <!-- nevigation menu of website layout -->
+        <div class = "nav_menu"> 
+            <a href = "#"> Menu 1</a> 
+            <a href = "#">Menu 2</a> 
+            <a href = "#">Menu 3</a> 
+        </div> 
+          
+        <!-- Content section of website layout -->
+        <div class = "row"> 
+              
+            <div class = "columnA"> 
+                <h2>Column A</h2> 
+                <p>Graphing Tools</p> 
+            </div>  
+              
+            <div class = "columnB"> 
+                <h2>Column B</h2> 
+                <p>Sky Plot</p> 
+            </div> 
+              
+            <div class = "columnC"> 
+                <h2>Column C</h2> 
+                <p>Galaxy Data</p> 
+            </div> 
+        </div> 
+    </body> 
+</html>                     
