@@ -1,6 +1,9 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html> 
     <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='icon' href='icon.png' type='image/x-icon'>
+        <<link rel="stylesheet" href="homepage.css">
         <title> 
             SMUDGES: Systematically Mapping Ultra-Diffuse Galaxies
         </title> 
@@ -12,7 +15,7 @@
             /* CSS property for header section */ 
             .header { 
                 background-color: teal; 
-                padding: 15px; 
+                padding: 10px; 
                 text-align: center; 
             } 
               
@@ -27,7 +30,7 @@
                 color: white; 
                 text-align: center; 
                 padding: 14px 16px; 
-                text-decoration: none; 
+                text-decoration: none;
             } 
             .nav_menu a:hover { 
                 background-color: white; 
@@ -37,31 +40,31 @@
             /* CSS property for content section */ 
             .columnA { 
                 float: left; 
-                width: 20%;
-                padding: 15px; 
+                width: 25%;
+                padding: 0px;
                 text-align:justify; 
-				border: 1px solid black;
+				<!-- border: 1px solid black; -->
             }
 			.columnB {
-				float: left; 
-                width: 60%; 
-                padding: 15px; 
+                display: inline-block;
+				float: center; 
+                width: 50%; 
                 text-align:justify;
-				border: 1px solid black;				
+				<!-- border: 1px solid black;				 -->
 			}
 			.columnC {
-				float: left; 
-                width: 20%; 
-                padding: 15px; 
+				float: right; 
+                width: 25%; 
+                padding: 0px; 
                 text-align:justify;
-				border: 1px solid black;
+				<!-- border: 1px solid black; -->
 			}
             h2 { 
                 color:black; 
                 text-align:center; 
             } 
               
-            /* Media query to set website layout  
+<!--             /* Media query to set website layout  
             according to screen size */ 
             @media screen and (max-width:600px) { 
                 .columnA, .columnB, .columnC { 
@@ -72,43 +75,60 @@
                 .columnA, .columnB, .columnC { 
                     width: 100%; 
                 } 
-            } 
+            }  -->
         </style> 
     </head> 
       
-    <body> 
-          
-        <!-- header of website layout -->
+    <body>
+    <!-- header of website layout -->
         <div class = "header"> 
-            <h2 style = "color:white;font-size:200%"> 
-                SMUDGES
-            </h2> 
+            <h2 style = "color:white;font-size:200%">SMUDGES</h2> 
         </div> 
           
         <!-- nevigation menu of website layout -->
         <div class = "nav_menu"> 
-            <a href = "#"> Menu 1</a> 
-            <a href = "#">Menu 2</a> 
-            <a href = "#">Menu 3</a> 
+            <a href = "#">Login/Logout</a>
+            <a href = "uploadData.html">Upload Data</a>   
+            <a href = "viewData.html">View Data</a>             
+            <a href = "adminPortal.html">Admin Portal</a> 
         </div> 
-          
         <!-- Content section of website layout -->
-        <div class = "row"> 
-              
-            <div class = "columnA"> 
-                <h2>Column A</h2> 
-                <p>Graphing Tools</p> 
-            </div>  
-              
+        <div class = "row">   
+            <div class = "columnA">
+                <button type="button" class="collapsible left"></button>
+                <div class="content">
+                    <h2>Graphing Tools</h2>
+                    <p>Tools here...</p>
+                </div>
+            </div>
             <div class = "columnB"> 
-                <h2>Column B</h2> 
-                <p>Sky Plot</p> 
+                <h2>Sky Plot</h2>
+                <img src="UDG.jpg" alt="UDG" class="center">
+                
             </div> 
               
-            <div class = "columnC"> 
-                <h2>Column C</h2> 
-                <p>Galaxy Data</p> 
-            </div> 
+             <div class = "columnC">   
+                <button type="button" class="collapsible right"></button>
+                <div class="content">
+                    <h2>Galaxy Data</h2>
+                    <p>Data here...</p>
+                </div>
+            </div>
         </div> 
+        <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+              });
+        }
+        </script>
     </body> 
-</html>                     
+</html>             
