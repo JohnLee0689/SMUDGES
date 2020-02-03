@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html> 
-    <head> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Datatable</title>
+<html>
+    <head>
+        <title> 
+            SMUDGES: Systematically Mapping Ultra-Diffuse Galaxies
+        </title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <style> 
-            * { 
-                box-sizing: border-box; 
-            } 
-              
-            /* CSS property for header section */ 
+        <style>
             .header { 
                 background-color: teal; 
-                padding: 15px; 
+                padding: 10px; 
                 text-align: center; 
-            } 
-              
+            }
             /* CSS property for nevigation menu */ 
             .nav_menu { 
                 overflow: hidden; 
@@ -30,40 +23,13 @@
                 color: white; 
                 text-align: center; 
                 padding: 14px 16px; 
-                text-decoration: none; 
+                text-decoration: none;
             } 
             .nav_menu a:hover { 
                 background-color: white; 
                 color: teal; 
-            } 
-              
-            /* CSS property for content section */ 
-            .columnA { 
-                float: left; 
-                width: 20%;
-                padding: 15px; 
-                text-align:justify; 
-				border: 1px solid black;
             }
-			.columnB {
-				float: left; 
-                width: 60%; 
-                padding: 15px; 
-                text-align:justify;
-				border: 1px solid black;				
-			}
-			.columnC {
-				float: left; 
-                width: 20%; 
-                padding: 15px; 
-                text-align:justify;
-				border: 1px solid black;
-			}
-            h2 { 
-                color:black; 
-                text-align:center; 
-            } 
-
+            
             @import url('//cdn.datatables.net/1.10.2/css/jquery.dataTables.css');
             td.details-control {
             background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
@@ -71,54 +37,38 @@
             }
             tr.shown td.details-control {
             background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
-            }
-              
-            /* Media query to set website layout  
-            according to screen size */ 
-            @media screen and (max-width:600px) { 
-                .columnA, .columnB, .columnC { 
-                    width: 50%; 
-                } 
-            } 
-            @media screen and (max-width:400px) { 
-                .columnA, .columnB, .columnC { 
-                    width: 100%; 
-                } 
-            } 
-        </style> 
-    </head> 
+            }  
+        </style>
+    </head><body> 
+          
+    /*header of website layout -->*/
+    <div class = "header"> 
+        <h2 style = "color:white;font-size:200%">SMUDGES</h2> 
+    </div> 
       
-    <body> 
-          
-        <!-- header of website layout -->
-        <div class = "header"> 
-            <h2 style = "color:white;font-size:200%"> 
-                SMUDGES
-            </h2> 
-        </div> 
-          
-        <!-- nevigation menu of website layout -->
-        <div class = "nav_menu"> 
-            <a href = "#">Menu 1</a> 
-            <a href = "#">Menu 2</a> 
-            <a href = "#">Menu 3</a> 
-        </div> 
+    <!-- nevigation menu of website layout -->
+    <div class = "nav_menu"> 
+        <a href = "#">Login/Logout</a>
+        <a href = "uploadData.html">Upload Data</a>   
+        <a href = "viewData.html">View Data</a>             
+        <a href = "adminPortal.html">Admin Portal</a> 
+    </div> 
         <div class="container mt-5">
             <table id="users" class="display nowrap" cellspaceing = "0" width = "100%">
             <thead>
             <tr>
                 <th></th>
-                <th>Name</th>
-                <th>name</th>
-                <th>age</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
                 <th></th>
-                <th>Name</th>
-                <th>name</th>
-                <th>age</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
             </tr>
         </tfoot>
     </table>
@@ -132,9 +82,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-
-
-  <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
         <script>
             function format(index) {
@@ -151,10 +99,9 @@
             $(document).ready(function() {
                 var table = $('#users').DataTable( { 
                     ajax: {
-                        url: "test.php",
+                        url: "viewDataPOST.php",
                         dataSrc: 'aaData',
-                        type: "POST"
-                        //data: {searchBy:searchBy, searchValue:searchValue, options:options},
+                        type: "POST",
                     },
                     columns: [
                         {
@@ -163,8 +110,8 @@
                             data:           null,
                             defaultContent: ''
                         },
-                        { data: "first name" },
-                        { data: "last name" },
+                        { data: "first_name" },
+                        { data: "last_name" },
                         { data: "age" }
                     ],
                     order: [[1, 'asc']],
@@ -183,19 +130,23 @@
                 } else {
                     // Open this row
                     //createChild(row, 'child-table');
+                    name = toString(row.data().first_name)
                     row.child(format(index)).show();
                     tr.addClass('shown');
+
+                    pass = {"value": "lea"}
                     var childtable = $('#childTable'+index).DataTable( {
                     ajax: {
-                        url: "test.php",
+                        url: "viewDataPOSTchild.php",
                         dataSrc: 'aaData',
-                        type: "POST"
-                        //data: {searchBy:searchBy, searchValue:searchValue, options:options},
+                        type: "POST",
+                        dataType: "json",
+                        data: pass,
                     },
                     dom: 'lBfrtip',
                     columns: [
-                        { data: "first name" },
-                        { data: "last name" },
+                        { data: "first_name" },
+                        { data: "last_name" },
                         { data: "age" }
                     ],
                     order: [[1, 'asc']],
@@ -211,4 +162,4 @@
         </script>
         </div> 
     </body> 
-</html>                     
+</html>
