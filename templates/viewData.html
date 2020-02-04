@@ -133,7 +133,9 @@
                     row.child(format(index)).show();
                     tr.addClass('shown');
 
-                    pass = {"value": "lea"}
+                    name = toString(row.data().first_name)
+                    pass = {"value": name}
+                    
                     var childtable = $('#childTable'+index).DataTable( {
                     ajax: {
                         url: "viewDataPOSTchild.php",
