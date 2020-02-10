@@ -25,7 +25,25 @@
             .nav_menu a:hover { 
                 background-color: white; 
                 color: teal; 
-            }             
+            }
+	  .button {
+	  background-color: #4CAF50;
+	  border: none;
+	  color: white;
+	  padding: 15px 25px;
+	  text-align: center;
+	  font-size: 16px;
+	  cursor: pointer;
+	  }
+
+	  .button:hover {
+	      background-color: green;
+	  }
+
+
+.button:hover {
+  background-color: green;
+}             
         </style>
     </head>
     <body>
@@ -37,6 +55,43 @@
             <a href = "uploadData.html">Upload Data</a>   
             <a href = "viewData.html">View Data</a>             
             <a href = "homepage.html">Home Page</a> 
-        </div> 
+        </div>
+	<!--
+	<button class="button">Create new Collaborator</button>
+	<button class="button">Remove Collaborator</button>
+	<button class="button">Change User Password</button>
+	-->
+
+	<h2>Create new Collaborator:</h2>
+	<form action="/action_page.php">
+	  Username:<br>
+	  <input type="text" name="username" value="">
+	  <br>
+	  Password:<br>
+	  <input type="text" name="password" value="">
+	  <br><br>
+	  <input type="submit" value="Submit">
+	</form>
+
+	<h2>Remove Collaborator:</h2>
+	<form action="/action_page.php">
+	  Username:<br>
+	  <input type="text" name="username" value="">
+	  <br>
+	  <br>
+	  <input type="submit" value="Submit">
+	</form>
+
+	<h2>Change User Password:</h2>
+	<form action="/action_page.php">
+	  Username:<br>
+	  <input type="text" name="username" value="">
+	  <br>
+	  Password:<br>
+	  <input type="text" name="password" value="">
+	  <br><br>
+	  <input type="submit" value="Submit">
+	</form>
+	
     </body>
 </html>
