@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='icon' href='icon.png' type='image/x-icon'>
+        <link rel="stylesheet" href="index.css">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <title> 
+            Navigating SMUDGes: Systematically Measuring Ultra-Diffuse Galaxies
+        </title> 
+        <style>           
+<!--             /* Media query to set website layout  
+            according to screen size */ 
+            @media screen and (max-width:600px) { 
+                .columnA, .columnB, .columnC { 
+                    width: 50%; 
+                } 
+            } 
+            @media screen and (max-width:400px) { 
+                .columnA, .columnB, .columnC { 
+                    width: 100%; 
+                } 
+            }  -->
+        </style> 
+    </head> 
+      
+    <body>
+    <!-- header of website layout -->
+        <div class = "header"> 
+            <h2 style = "color:white;font-size:200%;line-height:1px">
+            Navigating SMUDGes:</h2>
+            <h2 style = "color:white;font-size:200%">
+            Systematically Measuring Ultra-Diffuse Galaxies</h2> 
+            <p>
+            The SMUDGes survey aims to understand the extremes of galaxy formation and the nature of dark matter using the properties of these mysterious galaxies. This applet is intended to provide those within the SMUDGes team and those who are curious about our work with the ability to visualize and share recent results. The basic functionality mimics that of the popular graphical tool for tabular data, TOPCAT.</p>
+        </div> 
+          
+        <!-- nevigation menu of website layout -->
+        <div class = "nav_menu"> 
+            <a href = "#">Login/Logout</a>
+            <a href = "uploadData.html">Upload Data</a>   
+            <a href = "viewData.html">View Data</a>             
+            <a href = "adminPortal.html">Admin Portal</a> 
+            <a href = "index.html">Homepage</a> 
+        </div> 
+        
+        <img style="position:relative;z-index:-10;"src="UDG.jpg" alt="UDG" class="center">
+        
+        <div id="sidebarleft" class="sidebar1">
+            <a style="top:-10px;right:0" href="javascript:void(0)" class="closebtn1" onclick="closeNav1()">×</a>
+			<h2 style = "color:white">Graphing Tools</h2>
+			<select id="tools" name="GraphingTool">
+				<option value="1" selected="selected">Sky Plot</option>
+				<option value="2">Scatterplot</option>
+				<option value="3">Histogram Plot</option>
+			</select>
+			<p>Category</p>
+			<input type="text" id="11"><input type="text" id="12">
+			<p>Category</p>
+			<input type="text" id="21"><input type="text" id="22">
+			<p>Category</p>
+			<input type="text" id="31"><input type="text" id="32">
+			<p>Category</p>
+			<input type="text" id="41"><input type="text" id="42">
+			<p>Category</p>
+			<input type="text" id="51"><input type="text" id="52">
+			<p>Data Colouring</p>
+			<p>Misc</p>
+        </div>
+        <div id="main">
+        <button class="openbtn1" onclick="openNav1()">&#9776; Graphing Tools</button>  
+        </div>
+        
+        <div id="sidebarright" class="sidebar2">
+            <a style="top:-10px;left:0" href="javascript:void(0)" class="closebtn2" onclick="closeNav2()">×</a>
+			<h2 style = "color:white">Galaxy Data</h2>
+			<p>Name:</p>
+			<p>Location</p>
+			<p>Uploaded By:</p>
+			<p>Upload Date:</p>
+			<p>Other Data</p>
+        </div>
+        <div id="main">
+        <button class="openbtn2" onclick="openNav2()">Galaxy Data &#9776</button>  
+        </div>
+		<div id="tester" style="left:100px;right:100px;width:600px;height:400px;"></div>
+        <!-- Content section of website layout
+        <div class = "row">   
+            <div class = "columnA">
+                <button type="button" class="collapsible left"></button>
+                <div class="content">
+                    <h2>Graphing Tools</h2>
+                    <p>Tools here...</p>
+                </div>
+            </div>
+            <div class = "columnB"> 
+                <h2>Sky Plot</h2>
+                <img src="UDG.jpg" alt="UDG" class="center">
+                
+            </div> 
+              
+             <div class = "columnC">   
+                <button type="button" class="collapsible right"></button>
+                <div class="content">
+                    <h2>Galaxy Data</h2>
+                    <p>Data here...</p>
+                </div>
+            </div>
+        </div>  -->
+        <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+              });
+        }
+        </script>
+        <script>
+        function openNav1() {
+            document.getElementById("sidebarleft").style.width = "250px";
+        }
+        function closeNav1() {
+            document.getElementById("sidebarleft").style.width = "0";
+        }
+        function openNav2() {
+            document.getElementById("sidebarright").style.width = "250px";
+        }
+        function closeNav2() {
+            document.getElementById("sidebarright").style.width = "0";
+        }
+        </script>
+		<script>
+		var x = document.getElementById("tools");
+		menu.addEventListener("change",changeTool);
+		function changeTool(event){
+			if(x.value == '1'){
+				showSkyPlot();
+			}
+			if(x.value == '2'){
+				showScatterPlot();
+			}
+		}
+		</script>
+    </body> 
+	    <script>
+		function showScatterPlot() {
+        	TESTER = document.getElementById('tester');
+	        Plotly.newPlot( TESTER, [{
+	        x: [1, 2, 3, 4, 5],
+	        y: [1, 2, 4, 8, 16],
+            mode: 'markers',
+            type: 'scatter' }]);
+			}
+        </script>
+<style>
+circle {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+.graticule.outline {
+  stroke-width: 2px;
+}
+</style>
+
+<body>
+    <svg width="500" height="500"></svg>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+	<script src="https://unpkg.com/topojson-client@3"></script>
+	<script src="//d3js.org/d3.v5.min.js"></script>
+
+<script>
+function showSkyPlot(){
+// Define the div for the tooltip
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
+var svg = d3.select("svg").append("g");
+
+var projection = d3.geoOrthographic()
+  .translate([250,250])
+  
+var path = d3.geoPath().projection(projection);
+
+
+var graticule = d3.geoGraticule();
+
+var world = {type:"Sphere"}
+  
+  svg.append("path")
+    .datum(world)
+    .attr("d", path)
+    .attr("fill","black");
+    
+        // Draw graticule lines
+        svg.selectAll('path.graticule').data(graticule.lines())
+            .enter().append('path')
+            .attr('class', 'graticule')
+            .attr('d', path);
+
+d3.json("data.json").then( function(data) {
+    
+  svg.selectAll("stars")
+    .data(data.features)
+    .enter()
+    .append("path")
+    .attr("fill","white")
+    .attr("d",path)
+    .on("mouseover", function(d) {
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            div	.html((d.geometry.coordinates[0]) + "<br/>"  + d.geometry.coordinates[1])	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })			
+    .on("mouseout", function(d) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        });
+  
+  
+  svg.call(d3.drag()
+    .on("drag", function(d) {
+    var c = projection.rotate();
+    projection.rotate([c[0] + d3.event.dx/6, c[1] - d3.event.dy/6])
+    svg.selectAll('path').attr('d', path);
+    }))
+    function handleMouseOver(d, i) {		
+            console.log(d)
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            div	.html(d.x + "<br/>"  + d.y)
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            }
+
+function handleMouseOut(d, i) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        }
+});
+}
+</script>
+</html>             
