@@ -30,8 +30,6 @@
       if($count == 1) {
          $_SESSION['login_user'] = $myusername;
          $_SESSION['id']= reset($row);
-         echo  $_SESSION['login_user'];
-         echo$_SESSION['id'];
          //header("location: index.php");
       }else {
          $error = "Your Login Name or Password is invalid";
