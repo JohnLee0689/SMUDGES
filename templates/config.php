@@ -1,7 +1,14 @@
 <?php
-$conn = new mysqli('localhost', 'root','', 'test2');
- 
-if ($conn->connect_errno) {
-    echo "Error: " . $conn->connect_error;
+/* Database credentials. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'id12553816_smudgesdb');
+define('DB_PASSWORD', 'SexyDiffusedGalaxies');
+define('DB_NAME', 'id12553816_mydb');
+
+/* Attempt to connect to MySQL database */
+$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);// Check connection
+if($link === false){
+    die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 ?>
