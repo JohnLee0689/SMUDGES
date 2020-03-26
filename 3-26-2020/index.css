@@ -1,0 +1,195 @@
+#main {
+  transition: margin-left .5s;
+  padding: 0;
+}    
+
+.header { 
+    background-image: url('UDG.jpg');
+    text-align: center; 
+    position: relative;
+    width: 100%;
+    left: 0px;
+    margin: 0;
+    padding: 5;
+} 
+              
+.nav_menu { 
+    overflow: hidden; 
+    background-color: #333;
+    position: relative;
+    left: 0px;
+    width: 100%;
+} 
+.nav_menu a { 
+    float: right; 
+    display: block; 
+    color: white; 
+    text-align: center; 
+    padding: 14px 16px; 
+    text-decoration: none;
+    z-index: 10;
+} 
+.nav_menu a:hover { 
+    background-color: white; 
+    color: teal; 
+} 
+h2 { 
+    color:black; 
+    text-align:center; 
+} 
+p {
+    color: black;
+}
+v1 {
+    border-right: 3px solid black;
+    height: 500px;
+    left: 80%;
+    top: 0;
+}
+.left {
+    margin-left: 10px;
+    float: left;
+}
+.right {
+    float: right;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/*styling for sidebars*/
+.sidebar1 {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  background-color: white;
+  border: 1px solid black;
+  border-color: black;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.sidebar2 {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  background-color: white;
+  border: 1px solid black;
+  border-color: black;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.sidebar1 a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar2 a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.sidebar1 a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar2 a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar1 .closebtn1 {
+  position: absolute;
+  float: right;
+  top: 0px;
+  right: 0px;
+  font-size: 36px;
+}
+
+.sidebar2 .closebtn2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 36px;
+}
+
+.openbtn1 {
+  position: absolute;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn2 {
+  right: 0px;
+  position: absolute;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn1:hover {
+  background-color: #444;
+}
+
+.openbtn2:hover {
+  background-color: #444;
+}
+/* styling for graph filters*/
+.filter {
+    width: 50px;
+}
+
+.graphTools  {
+    visibility: hidden;
+}
+
+/*css styling for Skyplot  */
+circle {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+.graticule.outline {
+  stroke-width: 2px;
+}
