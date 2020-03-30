@@ -27,10 +27,20 @@ session_start();
             The SMUDGes survey aims to understand the extremes of galaxy formation and the nature of dark matter using the properties of these mysterious galaxies. This applet is intended to provide those within the SMUDGes team and those who are curious about our work with the ability to visualize and share recent results. The basic functionality mimics that of the popular graphical tool for tabular data, TOPCAT.</p>
             <!-- navigation menu of website layout -->
             <div class="nav_menu"> 
-                <a href="/login">Login/Logout</a>
-                <a href="/uploadData">Upload Data</a>   
-                <a href="/viewData">View Data</a>             
-                <a href="/adminPortal">Admin Portal</a> 
+                <?php
+					if(isset($_SESSION['login_user'])){
+						echo '<a href="/logout">Logout</a>';
+					} else {
+						echo '<a href="/login">Login</a>';
+					}
+				?>	
+                <a href="/viewData">View Data</a> 
+                <?php
+                    if(isset($_SESSION['id'])){
+                        echo '<a href="/uploadData">Upload Data</a>';
+                        echo '<a href="/adminPortal">Admin Portal</a>';
+                    }
+                ?>
                 <a href="/">Homepage</a> 
             </div> 
         </div> 
@@ -39,7 +49,7 @@ session_start();
             <div style="margin:10px">
             <a href="javascript:void(0)" class="closebtn1" onclick="closeNav1()">×</a>
 			<h2 style="color:black; float:left">Graphing Tools</h2>
-			<select id="tools" name="tools" onchange="changeTool(this.value)">
+			<select id="selectGraph" name="selectGraph" onchange="GetSelectedFiles(this.value)">
 				<option value="1" selected="selected">Sky Plot</option>
 				<option value="2">Scatterplot</option>
 				<option value="3">Histogram Plot</option>
@@ -75,29 +85,102 @@ session_start();
                         }
 			        //get the filenames and usernames of all publically avaliable files
 			    ?>		    
-			    <input type="button" id="submit" name="submit" value="Update skyplot" onclick="SkyPlotMain(this.form)">
-			</form>
+			    <input type="button" id="submit" name="submit" value="Update Data Shown" onclick="UpdatePlot()">
+			    <!-- SkyPlotMain(this.form); -->
+			    
+			<!-- dropdown menus to change scatter/histogram axis -->
 			<div id="graphTools" class="graphTools">
-			<input type="button" value="Update Plot" onclick="UpdatePlot()">
 		    <!-- filters for the plots -->
-			<p>Sort By:</p>
-		    <p>Right Ascension</p>
-			<p>min:
-			    <span>
-			    <input type="number" value=-90 id="ra1" class="filter">
-			    -
-			    <input type="number" value=90 id="ra2" class="filter">
-			    </span>
-			:max</p>
-			<p>Declination</p>
-			<p>min:
-			    <span>
-			    <input type="number" value=0 id="d1" class="filter">
-			    -
-			    <input type="number" value=360 id="d2" class="filter">
-			    </span>
-			:max</p>
-            </div>
+		    <p id="xRow">X-Axis<span>
+			<select id="xProperty" name="xProperty" onchange="UpdatePlot()">
+				<option value="RA" selected="selected">RA</option>
+				<option value="Dec">Dec</option>
+				<option value="m_g">m_g</option>
+				<option value="m_r">m_r</option>
+				<option value="m_z">m_z</option>
+	            <option value="e_m_g">e_m_g</option>
+	            <option value="e_m_r">e_m_r</option>
+	            <option value="e_m_z">e_m_z</option>
+	            <option value="mu_0_g">mu_0_g</option>
+	            <option value="mu_0_r">mu_0_r</option>
+	            <option value="mu_0_z">mu_0_z</option>
+	            <option value="e_mu_0_g">e_mu_0_g</option>
+	            <option value="e_mu_0_r">e_mu_0_r</option>
+	            <option value="e_mu_0_z">e_mu_0_z</option>
+	            <option value="r_e">r_e</option>
+	            <option value="e_r_e">e_r_e</option>
+	            <option value="b/a">b/a</option>
+	            <option value="e_b/a">e_b/a</option>
+			</select>
+			</span></p>
+			<p id="yRow">Y-Axis<span>
+			<select id="yProperty" name="yProperty" onchange="UpdatePlot()">
+				<option value="RA">RA</option>
+				<option value="Dec" selected="selected">Dec</option>
+				<option value="m_g">m_g</option>
+				<option value="m_r">m_r</option>
+				<option value="m_z">m_z</option>
+	            <option value="e_m_g">e_m_g</option>
+	            <option value="e_m_r">e_m_r</option>
+	            <option value="e_m_z">e_m_z</option>
+	            <option value="mu_0_g">mu_0_g</option>
+	            <option value="mu_0_r">mu_0_r</option>
+	            <option value="mu_0_z">mu_0_z</option>
+	            <option value="e_mu_0_g">e_mu_0_g</option>
+	            <option value="e_mu_0_r">e_mu_0_r</option>
+	            <option value="e_mu_0_z">e_mu_0_z</option>
+	            <option value="r_e">r_e</option>
+	            <option value="e_r_e">e_r_e</option>
+	            <option value="b/a">b/a</option>
+	            <option value="e_b/a">e_b/a</option>
+			</select>
+			</span></p>
+			</div>
+			
+			    <h4>Colour Subsets for data (not working)</h4>
+			    <table id="coloredSubset">
+			        <tr>
+			            <td></td>
+			            <td>
+			            <select id="selectColor">
+				            <option value="RA" selected="selected">RA</option>
+				            <option value="Dec">Dec</option>
+				            <option value="m_g">m_g</option>
+				            <option value="m_r">m_r</option>
+				            <option value="m_z">m_z</option>
+				            <option value="e_m_g">e_m_g</option>
+				            <option value="e_m_r">e_m_r</option>
+				            <option value="e_m_z">e_m_z</option>
+				            <option value="mu_0_g">mu_0_g</option>
+				            <option value="mu_0_r">mu_0_r</option>
+				            <option value="mu_0_z">mu_0_z</option>
+				            <option value="e_mu_0_g">e_mu_0_g</option>
+				            <option value="e_mu_0_r">e_mu_0_r</option>
+				            <option value="e_mu_0_z">e_mu_0_z</option>
+				            <option value="r_e">r_e</option>
+				            <option value="e_r_e">e_r_e</option>
+				            <option value="b/a">b/a</option>
+				            <option value="e_b/a">e_b/a</option>
+			            </select>
+			            </td>
+			            <td>
+			            min <input type="number" value=0 class="filter">
+			            </td>
+			            <td>
+			            max <input type="number" value=360 class="filter">
+			            </td>
+			            <td>
+			                <input type="color" id="head" name="head" value="#00BFFF">
+			            </td>
+			        
+			    </tr>
+			    </table>
+			    <input type="button"  name="addColor" value="Add Colored Subset" onclick="addrow()">
+			    <br>
+			    <br>
+			    <input type="button" name="updateColor" value="Update Colors" onclick="changeColours()">
+			</form>
+			
             </div>
         </div>
         <!-- end of left sidebar -->
@@ -123,8 +206,8 @@ session_start();
         <button class="openbtn2" onclick="openNav2()">Galaxy Data ☰ </button>  
         </div>
         
-		<div id="tester" style="position:relative;left:30%;right:30%;width:40%;height:70%:z-index:-10" class="js-plotly-plot"></div>
-        <svg id="skyplot" style="position: fixed; width: 100%; height: 100%; z-index: -15;"></svg>
+		<div style="text-align:center"><div id="tester" style="position:fixed; display:inline-block; width:100%; height:80%;left-margin:100px;right-margin:100px;top:20%; z-index:-15" class="js-plotly-plot"></div></div>
+        <svg id="skyplot" style="position:fixed;width: 100%; height: 100%; z-index:-15;top:0"></svg>
         <div class="tooltip" style="opacity:0;width:200px;min-height:45px"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js" type="text/javascript"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -146,14 +229,89 @@ session_start();
 		
 		<!-- functions to open and close sidebars -->
         <script>
+        //container for database
+        var dataTable = [];
+        
+        function addrow(){
+            var table = document.getElementById("coloredSubset")
+            var row = table.insertRow();
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+            cell0.innerHTML = '<button type="button" onClick="$(this).closest(\'tr\').remove();">-</button>'
+            cell1.innerHTML = '<select id="tools" name="tools" onchange="">'+
+				            '<option value="RA" selected="selected">RA</option>'+
+				            '<option value="Dec">Dec</option>'+
+				            '<option value="m_g">m_g</option>'+
+				            '<option value="m_r">m_r</option>'+
+				            '<option value="m_z">m_z</option>'+
+				            '<option value="e_m_g">e_m_g</option>'+
+				            '<option value="e_m_r">e_m_r</option>'+
+				            '<option value="e_m_z">e_m_z</option>'+
+				            '<option value="mu_0_g">mu_0_g</option>'+
+				            '<option value="mu_0_r">mu_0_r</option>'+
+				            '<option value="mu_0_z">mu_0_z</option>'+
+				            '<option value="e_mu_0_g">e_mu_0_g</option>'+
+				            '<option value="e_mu_0_r">e_mu_0_r</option>'+
+				            '<option value="e_mu_0_z">e_mu_0_z</option>'+
+				            '<option value="r_e">r_e</option>'+
+				            '<option value="e_r_e">e_r_e</option>'+
+				            '<option value="b/a">b/a</option>'+
+				            '<option value="e_b/a">e_b/a</option>'+
+			            '</select>';
+            cell2.innerHTML = 'min <input type="number" value=0 class="filter">';
+            cell3.innerHTML = 'min <input type="number" value=180 class="filter">';
+            cell4.innerHTML = '<input type="color" id="head" name="head" value="#00BFFF">';
+        }
+        function changeColours(){
+            selected = document.getElementById("selectGraph").value;
+            if(selected == 1){
+                changeSkyplotColours();
+            }else if (selected == 2){
+                //changeScatterplotColours()
+                UpdatePlot();
+            }else{
+                //changeHistogramColours()
+                UpdatePlot();
+            }
+        }
+        function changeSkyplotColours(){
+            var table = document.getElementById("coloredSubset")
+            var a = d3.selectAll(".galaxy")
+            for (var i = 0, row; row = table.rows[i]; i++) {
+                //iterate through rows of the table
+                prop = row.cells[1].getElementsByTagName('select')[0].value
+                min = row.cells[2].getElementsByTagName('input')[0].value
+                max = row.cells[3].getElementsByTagName('input')[0].value
+                color = row.cells[4].getElementsByTagName('input')[0].value
+                
+                //next step
+                //iterate through galaxies and change colors according to properties
+                
+                a.style("fill",function(d) {
+                    if(parseFloat(d.properties[prop]) > parseFloat(min) && parseFloat(d.properties[prop]) < parseFloat(max)){
+                        d.properties["color"] = color
+                        console.log(d.properties["color"])
+                        console.log(d.properties[prop])
+                        console.log(max)
+                        console.log(d.properties[prop] < max)
+                        return color;
+                    }
+                    return d.properties["color"];
+                })
+            }
+        }
+
         function openNav1() {
-            document.getElementById("sidebarleft").style.width = "250px";
+            document.getElementById("sidebarleft").style.width = "20%";
         }
         function closeNav1() {
             document.getElementById("sidebarleft").style.width = "0";
         }
         function openNav2() {
-            document.getElementById("sidebarright").style.width = "250px";
+            document.getElementById("sidebarright").style.width = "20%";
         }
         function closeNav2() {
             document.getElementById("sidebarright").style.width = "0";
@@ -174,6 +332,8 @@ session_start();
                 dataType: "json",
                 success: function(data) {
                     for(i = 0; i < data.length; i++){
+                        //dataTable.push(Object.keys(data[i]));
+                        //alert(dataTable[i]);
                         var keys = Object.keys(data[i])
                         var num = Math.random();
                         $('#MoreGalaxyData').append('<table width=90%, style="text-align:center;border: 2px solid rgb(150,150,150);margin:5%"><tbody id='+num+'></tbody></table>');
@@ -188,82 +348,201 @@ session_start();
                 }
             });
         }
-        </script>
 		
 		<!-- swaps between the different graphing tools -->
-		<script>
 		//changes what is visible in the sidebar?
-		changeTool(1);
-		function changeTool(tool){
-			if(tool == '1'){
-			    //creates skyplot and makes unrelated sidebar elements hidden
-			    //and removes other plot
-                SkyPlotMain();
-			}
-			if(tool == '2'){
-			    //add the functionality to make related sidebar elements visible
-				hideSkyPlot();
-				showScatterPlot();
-			}
-			if(tool == '3'){
-				hideSkyPlot();
-				showHistogram();
-			}
+		GetSelectedFiles(document.getElementById("selectGraph"))
+		
+		//calls the plot functions again, to update their values
+		function UpdatePlot(){
+		    GetSelectedFiles(document.getElementById("selectGraph"));
 		}
 		
-		function UpdatePlot(){
-		    changeTool(document.getElementById('tools').value);
-		}
-		function filterData(data,r1, r2) {
-		    newData = data.filter(function(test) {
-		        return test >= r1;})
-		    newData = newData.filter(function(test) {
-		        return test <= r2;})
+		//takes the database, the current array, the variable to be filtered by,a min and max 
+		//returns the list of only numbers i where 'min<= i <=max'
+		function filterDataX(data,completeArray,prop,min,max) {
+		    var newData = [];    
+		    for(i=0;i<data.length;i++){
+		        for(j=0;j<completeArray.length;j++){
+		            if(data[i]['id'].localeCompare(completeArray[j[0]])) {
+		                if((min<=data[i][prop]) && (data[i][prop]<=max)){
+		                    newData.push(completeArray[j][1]);
+		                }
+		            }
+		        }
+		    }
 		    return newData;
 		}
 		
-		//Makes the div containing the plotly grpah visible and shows the Histogram
-		function showHistogram() {
+		function filterDataY(data,completeArray,prop,min,max){
+		    var newData = [];    
+		    for(i=0;i<data.length;i++){
+		        for(j=0;j<completeArray.length;j++){
+		            if(data[i]['id'].localeCompare(completeArray[j[0]])) {
+		                if((min<=data[i][prop]) && (data[i][prop]<=max)){
+		                    newData.push([completeArray[j][0],completeArray[j][1],completeArray[j][2]]);
+		                }
+		            }
+		        }
+		    }
+		    return newData;		    
+		}
+		function filterDataZ(data,target,prop,min,max){
+		    var newData = [];    
+		    for(i=0;i<data.length;i++){
+		        if((min<=data[i][prop]) && (data[i][prop]<=max)){
+		            newData.push(data[i][target]);
+		        }
+		    }
+		    return newData;		    
+		}
+
+		function HistogramMain(user,fileNames) {
 		    clearPlot();
+            $.ajax({
+                type: "POST",
+                url: '/resources/php/plotData.php',
+                data: ({'users': user, 'fileNames' : fileNames }),
+                dataType: "json",
+                success: function(data) {
+                    //saves the database to a global array
+                    //console.log(data)
+                    for(i = 0; i < data.length; i++){
+        	            dataTable.push(Object.keys(data[i]));
+                    }
+                    showHistogram(data);
+                },
+                error: function(data) {
+                    //console.log(data)
+                }
+            });
+		}
+		//Makes the div containing the plotly grpah visible and shows the Histogram
+		function showHistogram(data) {
+		    //clearPlot();
 		    document.getElementById('graphTools').style.visibility="visible";
-		    raMin = document.getElementById('ra1').value;
-		    raMax = document.getElementById('ra2').value;
+		    document.getElementById('xRow').style.visibility="visible";
+		    document.getElementById('yRow').style.visibility="hidden";
 		    TESTER = document.getElementById('tester');
 		    TESTER.style.display = "block";
-		    testArray= filterData([1, 1, 1, 1, 2, 2, 3, 4, 5],raMin,raMax);
-	        Plotly.newPlot( TESTER, [{
-	        x: testArray,
-            mode: 'markers',
-            type: 'histogram' }]);
+		    var xProp = document.getElementById('xProperty').value;
+		    var traces = [];
+		    var completeArray= [];
+		    for(i=0;i<data.length;i++) {
+		        completeArray.push([data[i]['id'],data[i][xProp]]);
+		    }
+		    var table = document.getElementById("coloredSubset");
+        	for (var i = 0, row; row = table.rows[i]; i++) {
+        	    prop = row.cells[1].getElementsByTagName('select')[0].value
+                min = row.cells[2].getElementsByTagName('input')[0].value
+                max = row.cells[3].getElementsByTagName('input')[0].value
+                pColor = row.cells[4].getElementsByTagName('input')[0].value
+
+                currentArray = filterDataX(data,completeArray,prop,min,max);
+
+                var trace = {
+                    x: currentArray,
+                    type: 'histogram',
+                    opacity: 0.5,
+                    marker: {
+                        color: pColor,
+                    },
+                }
+                traces.push(trace);
+        	}
+            var layout = {
+                barmode:"overlay",
+        	    title: xProp
+        	};
+        	Plotly.newPlot(TESTER,traces,layout);
 		}
 		
-
-        //Makes the div containing the plotly graph visible and shows the ScatterPlot
-		function showScatterPlot() {
+		//runs the scatterplot
+        function ScatterPlotMain(user,fileNames) {
 		    clearPlot();
+            $.ajax({
+                type: "POST",
+                url: '/resources/php/plotData.php',
+                data: ({'users': user, 'fileNames' : fileNames }),
+                dataType: "json",
+                success: function(data) {
+                    //saves the database to a global array
+                    //console.log(data)
+                    for(i = 0; i < data.length; i++){
+        	            dataTable.push(Object.keys(data[i]));
+                    }
+                    showScatterPlot(data);
+                },
+                error: function(data) {
+                    //console.log(data)
+                }
+            });
+        }
+        
+        //Makes the div containing the plotly graph visible and shows the ScatterPlot
+		function showScatterPlot(data) {
 		    document.getElementById('graphTools').style.visibility="visible";
+		    document.getElementById('xRow').style.visibility="visible";
+		    document.getElementById('yRow').style.visibility="visible";
         	TESTER = document.getElementById('tester');
-        	TESTER.style.display = "block";
-	        Plotly.newPlot( TESTER, [{
-	        x: [1, 2, 3, 4, 5],
-	        y: [1, 2, 4, 8, 16],
-            mode: 'markers',
-            type: 'scatter' }]);
+            TESTER.style.display = "block";
+            var xProp = document.getElementById('xProperty').value;
+            var yProp = document.getElementById('yProperty').value;
+            var traces = [];
+            var currentArray = [];
+            var completeArray = [];
+            var currentX= [];
+            var currentY = [];
+            
+            for(i=0;i<data.length;i++){
+                    completeArray.push([data[i]['id'],data[i][xProp],data[i][yProp]]);
+            }
+        	var table = document.getElementById("coloredSubset")
+        	for (var i = 0, row; row = table.rows[i]; i++) {
+        	    currentX= [];
+                currentY = [];
+        	    prop = row.cells[1].getElementsByTagName('select')[0].value
+                min = row.cells[2].getElementsByTagName('input')[0].value
+                max = row.cells[3].getElementsByTagName('input')[0].value
+                pColor = row.cells[4].getElementsByTagName('input')[0].value
+                
+                currentX = filterDataZ(data,xProp,prop,min,max);
+                currentY = filterDataZ(data,yProp,prop,min,max);
+                
+                var trace = {
+                    x: currentX,
+        	        y: currentY,
+                    mode: 'markers',
+                    type: 'scatter',
+                    marker: {
+                        color: pColor,
+                    },
+                    //text: ids,//will be an array
+                    textposition: 'bottom center'
+                };
+                traces.push(trace);
+        	}
+        	var layout = {
+        	    title: xProp+' vs '+yProp
+        	};
+        	Plotly.newPlot(TESTER,traces,layout);
 		}
 		
 		//Makes the div containing the plotly graph invisble and clears the graph
 		function clearPlot() {
 			Plotly.purge(tester);
-			document.getElementById('submit').style.visibility="hidden";
+			//document.getElementById('graphTools').style.visibility="hidden";
 			var x = document.getElementById("tester");
             x.style.display = "none";
 		}
 		
-        function SkyPlotMain(form){
+        function GetSelectedFiles(form){
             //hides and clears other plots
             clearPlot();
             document.getElementById('submit').style.visibility="visible";
             document.getElementById('graphTools').style.visibility="hidden";
+            document.getElementById('xRow').style.visibility="hidden";
+		    document.getElementById('yRow').style.visibility="hidden";
             user = [];
             fileNames = [];
             publicBoxes = document.forms['skyPlotForm'].elements['public'];
@@ -274,8 +553,20 @@ session_start();
                     fileNames.push(info[1]);
                 }
             }
-			hideSkyPlot();
-			runSkyPlot(user,fileNames);
+			
+			selected = document.getElementById("selectGraph").value;
+            if(selected == 1){
+			    hideSkyPlot();
+			    runSkyPlot(user,fileNames);
+            }else if (selected == 2){
+				hideSkyPlot();
+				ScatterPlotMain(user,fileNames);
+                //changeScatterplotColours()
+                //UpdatePlot();
+            }else{
+				hideSkyPlot();
+				HistogramMain(user,fileNames);
+            }
 			
 			//make unrelated sidebar elements invisible
 			//related sidebar elements are named "skyPlotForm"
@@ -302,6 +593,9 @@ session_start();
                 success: function(data) {
                     // Run the code here that needs
                     //    to access the data returned
+                    //for(i=0;i<data.length;i++){
+                    //    dataTable.push(Object.keys(data[i]));
+                    //}
                     showSkyPlot(data, userList, fileList);
                 },
                 error: function() {
@@ -311,6 +605,9 @@ session_start();
         }
 
         function showSkyPlot(data,userList,fileList){
+            //for(i=0;i<data.length;i++){
+            //    dataTable.push(Object.keys(data[i]));
+            //}
         // Define the div for the tooltip
         document.getElementById("skyplot").style.zIndex = "-5";
         
@@ -319,7 +616,7 @@ session_start();
         var svg = d3.select("svg")
             .append("g")
             .attr("position","center")
-            .style('transform', 'translate(50%, 40%)');
+            .style('transform', 'translate(50%, 50%)');
 
 
         var projection = d3.geoOrthographic()
@@ -345,15 +642,17 @@ session_start();
             .attr("fill","white");
 
         //add graticule
-        svg.selectAll('path.graticule').data(graticule.lines())
+        svg.selectAll('path.graticule')
+            .data(graticule.lines())
             .enter().append('path')
             .attr('class', 'graticule')
             .attr('d', path)
 
-        svg.selectAll("stars")
+        svg.selectAll("galaxy")
             .data(data.Features)
             .enter()
             .append("path")
+            .attr('class', 'galaxy')
             .attr("fill","deepskyblue")
             .attr("d",path)
             .on("mouseover", function(d) {
